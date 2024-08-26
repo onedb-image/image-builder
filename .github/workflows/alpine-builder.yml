@@ -1,3 +1,5 @@
+name: alpine-builder
+
 on:
   push:
     branches:

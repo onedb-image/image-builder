@@ -1,3 +1,5 @@
+name: gh-actions-version-updater
+
 on:
   push:
     branches:
