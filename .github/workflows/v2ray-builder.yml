@@ -49,7 +49,7 @@ jobs:
     with:
       context: v2ray
       platforms: linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64
-      push: ${{ needs.prepare.outputs.docker_is_push }}
+      push: true
       tags: |
         wangdongbing/v2ray-core:${{ needs.prepare.outputs.docker_tag }}
         wangdongbing/v2ray-core:latest
