@@ -53,3 +53,4 @@ jobs:
       tags: |
         wangdongbing/v2ray-core:${{ needs.prepare.outputs.docker_tag }}
         wangdongbing/v2ray-core:latest
+      build-args: TAG=${{ needs.prepare.outputs.docker_tag }}

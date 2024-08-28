@@ -23,6 +23,10 @@ on:
         default: "latest"
         required: false
         type: string
+      build-args:
+        description: "构建镜像的运行时的参数"
+        required: false
+        type: string
     secrets:
       WORKFLOW_SECRET:
         required: true
@@ -59,3 +63,4 @@ jobs:
           platforms: ${{ inputs.platforms }}
           push: ${{ inputs.push }}
           tags: ${{ inputs.tags }}
+          build-args: ${{ inputs.build-args }}
