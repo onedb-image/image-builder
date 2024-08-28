@@ -12,24 +12,12 @@ on:
       - ".github/workflows/v2ray-builder.yml"
 
 jobs:
-  build:
+  prepare:
     runs-on: ubuntu-latest
+    outputs:
+      docker_tag: ${{ steps.result.outputs.docker_tag }}
+      docker_is_push: ${{ steps.result.outputs.docker_is_push }}
     steps:
-      - name: Checkout codebase
-        uses: actions/checkout@v4.1.7
-
-      - name: Setup QEMU
-        uses: docker/setup-qemu-action@v3.2.0
-
-      - name: Setup Docker Buildx
-        uses: docker/setup-buildx-action@v3.6.1
-
-      - name: Login to DockerHub
-        uses: docker/login-action@v3.3.0
-        with:
-          username: ${{ secrets.DOCKER_HUB_USERNAME }}
-          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
-
       - name: Get tag to build
         id: tag
         run: |
@@ -48,19 +36,20 @@ jobs:
           echo "PUSH=true" >> $GITHUB_ENV
 
       - name: Prepare environment variables
-        id: prepare
+        id: result
         run: |
-          echo "docker_platforms=linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64" >> $GITHUB_OUTPUT
-          echo "docker_image=wangdongbing/v2ray-core" >> $GITHUB_OUTPUT
           echo "docker_tag=${{ steps.tag.outputs.tag }}" >> $GITHUB_OUTPUT
           echo "docker_is_push=${PUSH:-false}" >> $GITHUB_OUTPUT
 
-      - name: Build tag & latest release
-        run: |
-          cd v2ray
-          docker buildx build --platform ${{ steps.prepare.outputs.docker_platforms }} \
-          --output "type=image,push=${{ steps.prepare.outputs.docker_is_push }}" \
-          --tag "${{ steps.prepare.outputs.docker_image }}:${{ steps.prepare.outputs.docker_tag }}" \
-          --tag "${{ steps.prepare.outputs.docker_image }}:latest" \
-          --build-arg TAG=${{ steps.prepare.outputs.docker_tag }} \
-          --file Dockerfile .
+  call-image-builder:
+    name: 调用构建镜像的可复用工作流
+    needs: prepare
+    uses: onedb-image/image-builder/.github/workflows/call-image-builder.yml@master
+    secrets: inherit
+    with:
+      context: v2ray
+      platforms: linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64
+      push: ${{ needs.prepare.outputs.docker_is_push }}
+      tags: |
+        wangdongbing/v2ray-core:${{ needs.prepare.outputs.docker_tag }}
+        wangdongbing/v2ray-core:latest
