@@ -1,4 +1,4 @@
-name: frps-builder
+name: build-frps
 
 on:
   push:
@@ -6,13 +6,13 @@ on:
       - master
     paths:
       - "frps/Dockerfile"
-      - ".github/workflows/frps-builder.yml"
+      - ".github/workflows/build-frps.yml"
   workflow_dispatch:
 
 jobs:
-  call-image-builder:
-    name: 调用构建镜像的可复用工作流
-    uses: onedb-image/image-builder/.github/workflows/call-image-builder.yml@master
+  build-image:
+    name: Build Image
+    uses: onedongbing/gh-actions/.github/workflows/build-image.yml@master
     secrets: inherit
     with:
       context: frps

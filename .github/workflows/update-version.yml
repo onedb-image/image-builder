@@ -1,0 +1,14 @@
+name: update-version
+
+on:
+  schedule:
+    # Automatically run on every Day
+    - cron: "0 0 * * *"
+  workflow_dispatch:
+
+jobs:
+  update-version:
+    name: Update Github Actions Version
+    uses: onedongbing/gh-actions/.github/workflows/update-version.yml@master
+    secrets:
+      WORKFLOW_SECRET: ${{ secrets.WORKFLOW_SECRET }}

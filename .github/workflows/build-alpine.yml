@@ -1,4 +1,4 @@
-name: alpine-builder
+name: build-alpine
 
 on:
   push:
@@ -6,13 +6,13 @@ on:
       - master
     paths:
       - "alpine/Dockerfile"
-      - ".github/workflows/alpine-builder.yml"
+      - ".github/workflows/build-alpine.yml"
   workflow_dispatch:
 
 jobs:
-  call-image-builder:
-    name: 调用构建镜像的可复用工作流
-    uses: onedb-image/image-builder/.github/workflows/call-image-builder.yml@master
+  build-image:
+    name: Build Image
+    uses: onedongbing/gh-actions/.github/workflows/build-image.yml@master
     secrets: inherit
     with:
       context: alpine

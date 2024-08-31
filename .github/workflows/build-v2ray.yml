@@ -1,4 +1,4 @@
-name: v2ray-builder
+name: build-v2ray
 
 on:
   workflow_dispatch:
@@ -9,7 +9,7 @@ on:
     paths:
       - "v2ray/v2ray.sh"
       - "v2ray/Dockerfile"
-      - ".github/workflows/v2ray-builder.yml"
+      - ".github/workflows/build-v2ray.yml"
 
 jobs:
   prepare:
@@ -41,10 +41,10 @@ jobs:
           echo "docker_tag=${{ steps.tag.outputs.tag }}" >> $GITHUB_OUTPUT
           echo "docker_is_push=${PUSH:-false}" >> $GITHUB_OUTPUT
 
-  call-image-builder:
-    name: 调用构建镜像的可复用工作流
+  build-image:
+    name: Build Image
     needs: prepare
-    uses: onedb-image/image-builder/.github/workflows/call-image-builder.yml@master
+    uses: onedongbing/gh-actions/.github/workflows/build-image.yml@master
     secrets: inherit
     with:
       context: v2ray
