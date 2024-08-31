@@ -45,7 +45,9 @@ jobs:
     name: Build Image
     needs: prepare
     uses: onedongbing/gh-actions/.github/workflows/build-image.yml@master
-    secrets: inherit
+    secrets:
+      DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
+      DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
     with:
       context: v2ray
       platforms: linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64

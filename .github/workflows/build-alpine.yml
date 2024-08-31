@@ -13,7 +13,9 @@ jobs:
   build-image:
     name: Build Image
     uses: onedongbing/gh-actions/.github/workflows/build-image.yml@master
-    secrets: inherit
+    secrets:
+      DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
+      DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
     with:
       context: alpine
       tags: |
