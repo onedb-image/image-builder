@@ -19,6 +19,7 @@ jobs:
       DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
     with:
       context: frpc
+      push: true
       tags: |
         wangdongbing/frpc:latest
         wangdongbing/frpc:0.60.0

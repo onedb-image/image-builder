@@ -19,6 +19,7 @@ jobs:
       DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
     with:
       context: alpine
+      push: true
       tags: |
         wangdongbing/alpine:latest
         wangdongbing/alpine:3.20.2
