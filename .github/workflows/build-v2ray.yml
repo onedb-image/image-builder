@@ -46,6 +46,7 @@ jobs:
     needs: prepare
     uses: onedongbing/gh-actions/.github/workflows/build-image.yml@master
     secrets:
+      WORKFLOW_SECRET: ${{ secrets.WORKFLOW_SECRET }}
       DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
       DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
     with:
